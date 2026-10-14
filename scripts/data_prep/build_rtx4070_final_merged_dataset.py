@@ -885,7 +885,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--old-peak-jobs", default=str(repo / "benchmarks/rtx4070_attribute_handoff_20260814/old_final_peak_attribute_jobs.csv"))
     parser.add_argument("--old-seed-calc", default=str(repo / "outputs/rtx4070_oldfinal_attribute_results_20260814/old_final_seed_calculated_16.csv"))
     parser.add_argument("--old-peak-calc", default=str(repo / "outputs/rtx4070_oldfinal_attribute_results_20260814/old_final_peak_calculated_16.csv"))
-    parser.add_argument("--new-root", default=r"D:\CODE\downloads\PeakTruthLab_RTX4070_20260814\extracted\manual_negative_4500_v2_staging")
+    parser.add_argument("--new-root", required=True,
+                        help="Extracted manual-negative 4500 v2 dataset directory")
     parser.add_argument("--output-root", required=True,
                         help="New full-dataset output directory outside the frozen source metadata")
     return parser.parse_args()

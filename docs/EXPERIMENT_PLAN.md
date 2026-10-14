@@ -32,4 +32,4 @@ Report candidate AUROC, average precision, F1, balanced accuracy and calibration
 
 The network returns image-coordinate boxes and candidate probabilities. EIC extraction, RT-boundary refinement and signal integration have separate tools; automated per-detection RT mapping, attribute recomputation and downstream quantitative validation remain a separate integration stage.
 
-The ordered final data/experiment protocol is in `RTX4070_MERGE_AND_SPLIT_PROMPT.md`; model details are in `PEAK_MULTITASK_ARCHITECTURE.md`.
+The ordered final data/experiment protocol is in [the frozen experiment protocol](FROZEN_EXPERIMENT_PROTOCOL.md); model details are in `PEAK_MULTITASK_ARCHITECTURE.md`.

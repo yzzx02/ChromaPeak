@@ -46,5 +46,5 @@
     "正式修正值_ppm": 15.0,
     "依据": "扩大容差敏感样本后，20张原图蓝线拟合中15 ppm胜11张、10 ppm胜0张；F182、F1510、F2463完整绘图中心穷举也均明确支持15 ppm。"
   },
-  "完整审计证据": "D:\\LipidBench\\.codex_tmp\\ppm_audit\\source_tolerance_map.json"
+  "审计依据": "原始LabelMe内嵌图片的EIC蓝线逐来源回溯；统计见审计统计。"
 }

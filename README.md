@@ -1,6 +1,6 @@
 # ChromaPeak
 
-ChromaPeak 用于 LC–MS 色谱峰检测、候选峰真假验证、边界修正与积分，并支持 MS2 注释引导的漏检 MS1 峰补检。软件名称和唯一的 Python 代码包都统一为 **ChromaPeak / `chromapeak`**。
+ChromaPeak 用于 LC–MS 色谱峰检测、候选峰真假验证、边界修正与积分，并支持 MS2 注释引导的漏检 MS1 峰补检。
 
 模型采用共享 ConvNeXt-Tiny + FPN：全窗口检测分支只使用图像；候选验证分支结合给定候选 RoI 的视觉特征与其自身的16项属性。MS2补峰先检测并修正新候选，再计算属性和验证真假；差异分析不属于软件范围。
 
@@ -14,8 +14,6 @@ ChromaPeak 用于 LC–MS 色谱峰检测、候选峰真假验证、边界修正
 |`benchmarks/`|冻结基准清单、数据划分及审计元数据，不放原始图像|
 |`docs/`|使用说明、训练协议、方法说明及历史审查记录|
 |`tests/`|运行接口、模型与数据处理测试|
-
-这些目录服务于同一个 ChromaPeak 项目。旧 `lipidbench/` 与 `PeakTruthLab/` 源码目录已经合并移除；布局迁移对照见 [目录说明](docs/PROJECT_LAYOUT.md)。
 
 `chromapeak/models/` 保存正式多任务模型及论文比较所需组件；`scripts/classification/` 是候选分类比较实验，`scripts/detection/` 是联合检测/验证的训练与评估命令。正式使用的固定模型仍是同一套发布检查点。
 
@@ -31,14 +29,14 @@ pip install -r requirements.txt
 python -m chromapeak --help
 ```
 
-NVIDIA训练依赖另见 `requirements-peak-nvidia-cu128.txt` 和 [训练环境说明](docs/NVIDIA_RTX_TRAINING.md)。本机已有CPU/绘图与ROCm环境的路径见独立资料目录中的中文使用说明。
+NVIDIA训练依赖另见 `requirements-peak-nvidia-cu128.txt` 和 [训练环境说明](docs/NVIDIA_RTX_TRAINING.md)。
 
 所有软件功能统一从 `python -m chromapeak` 进入，例如：
 
 ```powershell
 python -m chromapeak --algo pyopenms
 python -m chromapeak --algo xcms,asari
-python -m chromapeak --algo pyopenms --export-eic --eic-mzml D:\data\sample.mzML
+python -m chromapeak --algo pyopenms --export-eic --eic-mzml /path/to/sample.mzML
 python -m chromapeak rescue-ms2 --help
 ```
 
@@ -66,21 +64,14 @@ python scripts/data_prep/verify_rtx4070_final_merged_dataset.py
 python scripts/detection/run_rtx4070_multitask_concat_pipeline.py --help
 ```
 
-完整训练/评估说明见 [工作流入口](docs/TRAINING_WORKFLOWS.md)、[基准与协议](docs/BENCHMARK.md) 和 [冻结实验协议](docs/RTX4070_MERGE_AND_SPLIT_PROMPT.md)。
+完整训练/评估说明见 [工作流入口](docs/TRAINING_WORKFLOWS.md)、[基准与协议](docs/BENCHMARK.md) 和 [冻结实验协议](docs/FROZEN_EXPERIMENT_PROTOCOL.md)。
 
-正式模型和数据集仍通过 [GitHub Release](https://github.com/yzzx02/ChromaPeak/releases/tag/rtx4070-final-20260818) 获取。历史发布包文件名、数据集版本标识、`seed_*` 字段与固定校验值保持原样，用于核对原始实验；它们不再代表另一个软件包。目录整理不修改权重、特征数值、样本划分或实验结果。
+正式模型和数据集通过 [GitHub Release](https://github.com/yzzx02/ChromaPeak/releases/tag/rtx4070-final-20260818) 获取。历史发布包文件名、数据集版本标识、`seed_*` 字段与固定校验值用于核对原始实验。历史RT平移实验的输入和运行方式见 [RT复现指南](scripts/rt_validation/README.md)。
 
-## 本地输入、结果与缓存
+## 数据目录配置
 
-默认本地资料根目录是源码目录的同级 `<项目名>-local`：本机为 `D:\ChromaPeak-local`。
+输入数据、模型权重、运行结果和缓存建议保存在源码目录之外，使用软件不需要将这些文件上传 GitHub。
 
-- `图表与复现数据/`：最新可用图、中文实验说明、作图表和独立重画脚本。
-- `inputs/`：原始mzML及完整冻结数据集，和绘图数据分开。
-- `runtime/models/Main/`：两个正式检查点及Train预处理/锁定配置。
-- `runtime/environments/`：本机Python与GPU依赖。
-- `outputs/`：以后运行产生的特征表、评估和打包结果。
-- `cache/`：可再生成的Python、pip、pytest与临时缓存。
+`CHROMAPEAK_LOCAL_ROOT` 设置外部工作目录，默认使用源码同级的 `<项目名>-local`；`CHROMAPEAK_CACHE_ROOT` 和 `CHROMAPEAK_DATASET_ROOT` 分别设置缓存目录与完整基准数据集目录。训练入口支持通过 `CHROMAPEAK_PROJECT_ROOT` 指定源码根目录。
 
-`CHROMAPEAK_LOCAL_ROOT`、`CHROMAPEAK_CACHE_ROOT`、`CHROMAPEAK_DATASET_ROOT` 可覆盖这些位置。训练入口也支持 `CHROMAPEAK_PROJECT_ROOT`；保留旧环境变量的读取仅用于兼容既有命令，不再保留旧代码包。
-
-图和复现数据不提交或上传为论文图Release；冻结元数据随源码保留。本机已明确标注E盘未取回的最终交付，不将旧备份称为定稿。历史16文件RT平移实验使用其原有模型和口径，另见 [历史复现指南](scripts/rt_validation/README.md)。
+`.gitignore` 排除原始数据、模型权重、图表、运行环境、结果和缓存；仓库仅保留源码、通用配置、文档及明确列出的冻结基准元数据。

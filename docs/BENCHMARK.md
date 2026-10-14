@@ -39,10 +39,8 @@ The paper model is Naive concat with image features plus all 16 attributes. The 
 - Locked target evaluation: `scripts/detection/evaluate_rtx4070_multitask_locked_target.py`
 - Package final release: `scripts/reporting/package_final_rtx4070_release.py`
 
-The exact ordered protocol is in `RTX4070_MERGE_AND_SPLIT_PROMPT.md`.
-Compact paper results and cross-PC materials are machine-local under
-`<CHROMAPEAK_LOCAL_ROOT>/图表与复现数据/`.
-They are not part of the source repository. The published Main-model weights
-and canonical training dataset remain available through the final benchmark Release.
+The exact ordered protocol is in [the frozen experiment protocol](FROZEN_EXPERIMENT_PROTOCOL.md).
+The published Main-model weights and canonical training dataset are available
+through the final benchmark Release.
 
 The source checkout keeps only frozen metadata in `benchmarks/main_20260814/`; all commands above are run from the repository root.

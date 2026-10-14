@@ -1,9 +1,8 @@
 # ChromaPeak manual-negative 4500 v2 transfer
 
-This release transfers the two completed LabelMe batches (3000 + 1500 images)
-from the AMD workstation to the RTX 4070 Super workstation. It is an additive
-dataset package and must be merged with the genuinely final old annotations on
-the RTX workstation, not with the older copy previously committed to GitHub.
+This release contains two completed LabelMe batches (3000 + 1500 images).
+It is an additive dataset package for the final merged benchmark. Rebuilding
+that benchmark requires the version-verified, reviewed old-batch annotations.
 
 ## Release asset
 
@@ -29,7 +28,7 @@ standardization self-check are included.
 
 ## Merge and split
 
-Use [RTX4070_MERGE_AND_SPLIT_PROMPT.md](RTX4070_MERGE_AND_SPLIT_PROMPT.md) as
-the task prompt on the RTX 4070 Super workstation. The main benchmark uses a
+Follow [the frozen experiment protocol](FROZEN_EXPERIMENT_PROTOCOL.md) to
+reconstruct the merged benchmark. The main benchmark uses a
 leakage-controlled, sample-level stratified random split. A separate manifest
 must be produced for whole-source cross-domain evaluation.

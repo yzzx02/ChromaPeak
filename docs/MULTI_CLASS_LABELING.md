@@ -2,7 +2,7 @@
 
 # 早期多类别真峰标注（small_trainset）
 
-你现在的目录 `benchmarks/small_trainset` 是：
+早期标注目录采用以下配对格式：
 - 每张图一个 `xxx.jpeg`
 - 同名一个 `xxx.json`（LabelMe 格式）
 
@@ -58,7 +58,7 @@
   - 推荐（带 labels 列表）：
     - `labelme --labels configs\labelme_labels.txt`
 3. 打开目录：
-   - `Open Dir` 选择 `benchmarks/small_trainset`
+   - `Open Dir` 选择待标注的图像目录
 4. 导入标签列表：
   - 如果你用上面的启动方式（带 `--labels`），这一步可以跳过
   - 注意：不要用“Open(打开标注文件)”去打开 `labelme_labels.txt`，它不是 JSON
@@ -66,32 +66,6 @@
    - 真峰：画一个 rectangle，label 选对应类型
    - 假峰：删除 rectangle，让 shapes 为空
 
-## 3) 训练（多类别）
+## 3) 当前训练与标注检查
 
-训练脚本已支持读取标签映射文件：
-
-```bash
-python scripts/train_model.py \
-  --data-root D:\\LipidBench\\benchmarks\\small_trainset \
-  --label-map D:\\LipidBench\\configs\\label_map.json \
-  --epochs 20 --batch-size 4
-```
-
-可视化预测：
-
-```bash
-python scripts/eval_mvp.py \
-  --image-root D:\\LipidBench\\benchmarks\\small_trainset \
-  --label-map D:\\LipidBench\\configs\\label_map.json \
-  --weights D:\\LipidBench\\PeakTruthLab\\models\\fasterrcnn_mvp.pth \
-  --out-root D:\\LipidBench\\PeakTruthLab\\outputs \
-  --score-threshold 0.5
-```
-
-标注检查（看各类数量、是否有未知 label）：
-
-```bash
-python scripts/inspect_labels.py \
-  --data-root D:\\LipidBench\\benchmarks\\small_trainset \
-  --label-map D:\\LipidBench\\configs\\label_map.json
-```
+早期MVP训练和预测入口已经退役。当前模型的训练与评估见 [工作流说明](TRAINING_WORKFLOWS.md)；标注检查入口为 `scripts/annotation/inspect_labels.py`，可通过 `--help` 查看输入目录和标签映射参数。

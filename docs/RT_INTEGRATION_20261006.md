@@ -10,9 +10,6 @@
   and attribute-migration work is not needed for this RT replay; the later final
   dataset/current attribute implementation are already maintained on main.
   Retired training entry points are not restored by this integration.
-- The original local checkout has an unrelated uncommitted locked-target
-  evaluator change. Work was performed in a separate Git worktree and that
-  local change was preserved.
 
 ## Algorithm decision
 
@@ -38,8 +35,6 @@ checkpoint; substituting the default concat checkpoint is rejected by SHA-256.
 
 ## Transfer and checks
 
-Summaries, parameters, manifests and paper deliverables are now machine-local
-under `<CHROMAPEAK_LOCAL_ROOT>/图表与复现数据/`.
 Full per-peak tables, original 16 mzML files, raw predictions/logs, frozen
 references/history, historical code, cached boundary-audit EICs, exact checkpoint
 and matching R runtime are Release assets. Figures are excluded. Archive CRCs
