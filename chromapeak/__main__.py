@@ -1,4 +1,4 @@
-from lipidbench.main import main
+from chromapeak.main import main
 
 
 if __name__ == "__main__":

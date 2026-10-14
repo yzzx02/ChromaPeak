@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 import torch
 
-from lipidbench.models import build_seed_classification_loss
+from chromapeak.models import build_seed_classification_loss
 
 
 @pytest.mark.parametrize(

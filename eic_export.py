@@ -1,10 +1,10 @@
 """Compatibility shim.
 
-EIC export has been unified into lipidbench.main (CLI + YAML).
+EIC export has been unified into chromapeak.main (CLI + YAML).
 Use: python main.py --export-eic ...
 """
 
-from lipidbench.main import main
+from chromapeak.main import main
 
 
 if __name__ == "__main__":

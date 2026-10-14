@@ -8,9 +8,9 @@ import pandas as pd
 import pytest
 from scipy.special import erf
 
-from lipidbench.utils.peak_attributes import Spectrum1, PEAK_ATTRIBUTE_COLUMNS
-from lipidbench.utils.plot_eic import plot_eic
-from lipidbench.workflows import ms2_rescue as rescue
+from chromapeak.utils.peak_attributes import Spectrum1, PEAK_ATTRIBUTE_COLUMNS
+from chromapeak.utils.plot_eic import plot_eic
+from chromapeak.workflows import ms2_rescue as rescue
 
 
 def _table(records=None):
@@ -208,11 +208,11 @@ def test_excel_and_delimited_table_intake_preserve_ms1_presence_and_target_mass(
 
 def test_torch_adapter_detects_without_seed_and_classifies_new_candidate_batches(tmp_path, monkeypatch):
     import torch
-    from lipidbench.data.attribute_preprocessing import AttributePreprocessor
-    from lipidbench.data.peak_dataset import load_rgb_image_tensor
-    from lipidbench.data.peak_manifest import BASE_ATTRIBUTE_NAMES
-    from lipidbench.models import PeakMultiTaskRCNN
-    from lipidbench.workflows.ms2_rescue_inference import TorchRescuePredictor
+    from chromapeak.data.attribute_preprocessing import AttributePreprocessor
+    from chromapeak.data.peak_dataset import load_rgb_image_tensor
+    from chromapeak.data.peak_manifest import BASE_ATTRIBUTE_NAMES
+    from chromapeak.models import PeakMultiTaskRCNN
+    from chromapeak.workflows.ms2_rescue_inference import TorchRescuePredictor
 
     model = PeakMultiTaskRCNN(pretrained=False, anchor_sizes=((8,), (16,), (32,), (64,)),
         anchor_aspect_ratios=((1.0, 2.0),) * 4, image_min_size=64, image_max_size=64,

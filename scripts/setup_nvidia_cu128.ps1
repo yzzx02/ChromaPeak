@@ -6,7 +6,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 . (Join-Path $PSScriptRoot "use_local_workspace.ps1")
 if (-not $EnvironmentPath) {
-    $EnvironmentPath = Join-Path $env:CHROMAPEAK_LOCAL_ROOT "environments\nvidia-cu128"
+    $EnvironmentPath = Join-Path $env:CHROMAPEAK_LOCAL_ROOT "runtime\environments\nvidia-cu128"
 }
 $environment = [System.IO.Path]::GetFullPath(
     $(if ([System.IO.Path]::IsPathRooted($EnvironmentPath)) { $EnvironmentPath } else { Join-Path $projectRoot $EnvironmentPath })
@@ -30,7 +30,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 & $python -m pip install -r (Join-Path $projectRoot "requirements-peak-common.txt")
 if ($LASTEXITCODE -ne 0) {
-    throw "Failed to install common PeakTruthLab dependencies."
+    throw "Failed to install common ChromaPeak dependencies."
 }
 & $python -m pip install -r (
     Join-Path $projectRoot "requirements-peak-nvidia-cu128.txt"
