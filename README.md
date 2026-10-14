@@ -12,9 +12,9 @@ The current paper dataset and model are the RTX 4070 final release (2026-08-18).
 
 ## Current final assets
 
-- Final merged dataset: `PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814`
+- Final merged dataset: `<local-root>/inputs/PeakTruthLab_final_merged_20260814` (locked metadata stays in Git)
 - Reproducible protocol: `PeakTruthLab/docs/RTX4070_MERGE_AND_SPLIT_PROMPT.md`
-- Machine-local paper figures and reproduction materials: `<local-root>/artifacts/reproduction/`
+- Machine-local paper figures and reproduction materials: `<local-root>/图表与复现数据/`
 - GitHub Release assets: final dataset, complete non-checkpoint results, and the two Main-model checkpoints
 
 Only the Main split's `best_detection.pt` and `best_seed.pt` are published. The latter is the candidate-classification checkpoint under its historical filename. LODO/cross-domain checkpoints and `last.pt` files are deliberately excluded; their metrics, histories, thresholds, and predictions remain available.
@@ -95,22 +95,29 @@ not committed or uploaded as new paper-figure Releases.
 
 ## Local storage
 
-The default local root is a sibling of the checkout: `D:\LipidBench-local` for
-`D:\LipidBench`. `CHROMAPEAK_LOCAL_ROOT` overrides it; `CHROMAPEAK_CACHE_ROOT`
+The default local root is a sibling of the checkout: `D:\ChromaPeak-local` for
+`D:\ChromaPeak`. `CHROMAPEAK_LOCAL_ROOT` overrides it; `CHROMAPEAK_CACHE_ROOT`
 can override just the cache location. `config.yaml` expands these two placeholders
 before passing paths to the feature-extraction adapters.
 
-- `artifacts/reproduction/outputs/`: saved experiments, figures and replot data
-- `artifacts/reproduction/PeakTruthLab/final_delivery/`: local paper deliverables
-- `artifacts/reproduction/data/`: machine-local input files
-- `artifacts/reproduction/results/`: feature-extraction output
-- `cache/`: Python bytecode, pip cache, temporary files, pytest cache and training locks
-- `archives/`: preserved historical source snapshots
+- `图表与复现数据/`: latest available figures, plotting tables, independent redraw scripts and Chinese experiment notes
+- `inputs/`: original inputs and frozen training dataset (separate from redraw data)
+- `runtime/models/Main/`: fixed released checkpoints and Train-fitted preprocessing
+- `runtime/environments/`: workstation Python/GPU dependencies
+- `outputs/`: newly generated feature tables and inference results
+- `cache/`: disposable bytecode, pip, pytest and temporary files
+- `maintenance/`: integrity checks and a compact record of the cleanup
 
-Dot-source `scripts/use_local_workspace.ps1` before commands to put Python bytecode,
-pip and temporary files in the external cache. Existing Python/GPU environments
-remain usable. Maintained source and locked canonical dataset metadata stay in Git;
-the ignore rules exclude all generated figure formats and local result directories.
+Dot-source `scripts/use_local_workspace.ps1` before commands. On this workstation,
+the Python 3.13 interpreter is `<local-root>/runtime/environments/python313/Scripts/python.exe`.
+`CHROMAPEAK_DATASET_ROOT` can override the frozen dataset location; existing
+installations with images inside the checkout are also supported. Original sample
+IDs and checkpoint filenames stay unchanged for scientific traceability.
+
+Only figures from the same experiment and revision family are deduplicated.
+The local Chinese catalog explicitly marks E-drive final deliveries that were
+unavailable during cleanup. Historical backups are not advertised as final figures.
+All figures and reproduction data remain local and excluded from GitHub.
 
 ## RT validation and workstation transfer
 

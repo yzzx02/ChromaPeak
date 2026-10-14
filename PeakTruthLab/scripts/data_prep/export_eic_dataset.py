@@ -1,14 +1,20 @@
 from pathlib import Path
 from types import SimpleNamespace
+import argparse
+import sys
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 from lipidbench.eic.extract_eic_pyopenms import build
 
 
 def main() -> None:
-    feature_csv = Path(r"D:\LipidBench\Results\pyopenms\xcms\xcms_features.csv")
-    mzml_path = Path(r"D:\LipidBench\data\DIA_mzML\HILIC-Pos-SWATH-25Da-20140701_08_GB004467_Swath25Da.mzML")
-    out_root = Path(r"D:\LipidBench\PeakTruthLab\datasets\eic_images")
+    parser = argparse.ArgumentParser(description="Export EIC images for a feature table and an mzML file.")
+    parser.add_argument("--features", type=Path, required=True)
+    parser.add_argument("--mzml", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    options = parser.parse_args()
+    feature_csv, mzml_path, out_root = options.features, options.mzml, options.output
 
     if not feature_csv.exists():
         raise FileNotFoundError(feature_csv)

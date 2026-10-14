@@ -25,6 +25,11 @@ Results/
 local_artifacts/
 artifacts/
 cache/
+/inputs/
+/runtime/
+/maintenance/
+/图表与复现数据/
+/ChromaPeak-local/
 cleanup_kept_*/
 cleanup_inventory_*.json
 _remote_attribute_handoff*/
@@ -66,6 +71,8 @@ PeakTruthLab/final_delivery/
 *.tiff
 *.pdf
 *.svg
+*.docx
+*.pptx
 
 # Checkpoints and runtime model data; the Python model package remains source
 *.pth

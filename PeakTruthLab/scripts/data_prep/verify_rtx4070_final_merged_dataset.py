@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 import hashlib
 import json
 import os
@@ -9,6 +10,11 @@ from collections import Counter
 from pathlib import Path, PurePosixPath
 
 import pandas as pd
+
+
+PROJECT_ROOT = Path(os.environ.get("CHROMAPEAK_PROJECT_ROOT") or os.environ.get("LIPIDBENCH_PROJECT_ROOT") or Path(__file__).resolve().parents[3]).resolve()
+sys.path.insert(0, str(PROJECT_ROOT))
+from lipidbench.utils.local_paths import get_dataset_root, get_local_root
 
 
 ATTRS = ["SNR", "CV", "GS", "TPAS", "H2B", "ZZ", "DZZ", "PCC", "SKEW", "DENT", "DM", "ENT", "JAG", "SYM", "MOD", "EDGE"]
@@ -52,7 +58,8 @@ def main(args: argparse.Namespace) -> None:
     hash_mismatches = []
     shape_counts = Counter()
     peak_shape_rows = []
-    new_input_json_by_stem = {path.stem: path for path in Path(args.new_root).joinpath("corrected_annotations").rglob("*.json")}
+    new_input_json_by_stem = ({path.stem: path for path in Path(args.new_root).joinpath("corrected_annotations").rglob("*.json")}
+                             if args.new_root else {})
     new_shape_mismatches = []
     for row in seed.itertuples(index=False):
         image_rel = str(row.image)
@@ -78,9 +85,13 @@ def main(args: argparse.Namespace) -> None:
             points = shape.get("points", [])
             if len(points) >= 2:
                 peak_shape_rows.append((str(row.seed_id), str(shape.get("label")), points))
-        if str(row.seed_id).startswith("NEW::"):
+        if args.new_root and str(row.seed_id).startswith("NEW::"):
             stem = str(row.original_seed_id)
-            source_payload = json.loads(new_input_json_by_stem[stem].read_text(encoding="utf-8"))
+            source_json = new_input_json_by_stem.get(stem)
+            if source_json is None:
+                new_shape_mismatches.append(stem)
+                continue
+            source_payload = json.loads(source_json.read_text(encoding="utf-8"))
             if canonical_shapes(source_payload) != canonical_shapes(payload):
                 new_shape_mismatches.append(stem)
 
@@ -121,7 +132,7 @@ def main(args: argparse.Namespace) -> None:
     require(lock["test_csv_sha256"] == test_csv_sha, "locked test CSV SHA mismatch")
     require(lock["test_jsonl_sha256"] == test_jsonl_sha, "locked test JSONL SHA mismatch")
 
-    protected_root = Path(args.old_root)
+    protected_root = Path(args.old_root) if args.old_root else root
     protected_checks = {
         "train_manifest": (protected_root / "manifests/train.jsonl", "8163d3d4f57c322aaa6cf2dc7f45c495a52b84d654bf4354d6adbe29309036a7"),
         "val_manifest": (protected_root / "manifests/val.jsonl", "e3b461cb74d4a2743d74c94771133f3d7b29e8b50d54e016be18c02bc933c76c"),
@@ -131,13 +142,14 @@ def main(args: argparse.Namespace) -> None:
         "representative_last": (protected_root / "eic_images_flat/WTHFD_mixpos/WTHFD_mixpos__F9990.png", "d3cfc07acf6132de4d84f24cc3c591d9a95fa9e7385ee49ff9b6a33c2c1c1743"),
     }
     protected_actual = {}
-    for name, (path, expected) in protected_checks.items():
+    for name, (path, expected) in (protected_checks.items() if args.old_root else []):
         actual = sha256_file(path)
         protected_actual[name] = actual
         require(actual == expected, f"protected old-final hash changed: {name}")
 
-    release_sha = sha256_file(Path(args.release_zip))
-    require(release_sha.upper() == "F89632310064E5F92A484AB7FD75A05ABF3DC55631F7077B2C9A328D4F0CB409", "new release ZIP SHA mismatch")
+    release_sha = sha256_file(Path(args.release_zip)) if args.release_zip else None
+    if release_sha:
+        require(release_sha.upper() == "F89632310064E5F92A484AB7FD75A05ABF3DC55631F7077B2C9A328D4F0CB409", "new release ZIP SHA mismatch")
 
     result = {
         "status": "ok" if not failures else "failed",
@@ -158,8 +170,14 @@ def main(args: argparse.Namespace) -> None:
         "test_lock": {"test_csv_sha256": test_csv_sha, "test_jsonl_sha256": test_jsonl_sha},
         "protected_old_final_hashes": protected_actual,
         "new_release_zip_sha256": release_sha,
+        "optional_source_checks": {
+            "old_protected_files_checked": bool(args.old_root),
+            "new_original_shapes_compared": bool(args.new_root),
+            "original_release_checked": bool(args.release_zip),
+        },
     }
-    output = root / "audits/independent_verification.json"
+    output = Path(args.report)
+    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if failures:
@@ -168,10 +186,12 @@ def main(args: argparse.Namespace) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset-root", default=str(PROJECT_ROOT / "PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814"))
-    parser.add_argument("--old-root", default=str(PROJECT_ROOT / "PeakTruthLab/results/paper_final_reviewed_20260725/dataset_release/PeakTruthLab-dataset-v2"))
-    parser.add_argument("--new-root", default=r"D:\CODE\downloads\PeakTruthLab_RTX4070_20260814\extracted\manual_negative_4500_v2_staging")
-    parser.add_argument("--release-zip", default=r"D:\CODE\downloads\PeakTruthLab_RTX4070_20260814\PeakTruthLab_manual_negative_4500_v2_20260814.zip")
+    parser.add_argument("--dataset-root", default=str(get_dataset_root(PROJECT_ROOT)))
+    parser.add_argument("--old-root", help="Optional original old-final input for additional provenance checks")
+    parser.add_argument("--new-root", help="Optional original corrected-annotation input for shape comparison")
+    parser.add_argument("--release-zip", help="Optional original manual-negative release for checksum verification")
+    parser.add_argument("--report", type=Path, default=get_local_root(PROJECT_ROOT) / "outputs/frozen_dataset_verification.json",
+                        help="Write the verification report outside the frozen input dataset")
     return parser.parse_args()
 
 

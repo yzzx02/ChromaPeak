@@ -21,6 +21,24 @@ def get_cache_root(project_root: Path | None = None) -> Path:
     return get_local_root(project_root) / "cache"
 
 
+def get_dataset_root(project_root: Path | None = None) -> Path:
+    """Locate the frozen input dataset independently of the source checkout.
+
+    Existing installations with images inside the checkout remain supported.
+    New installations keep the full dataset in the sibling local storage.
+    """
+    override = os.environ.get("CHROMAPEAK_DATASET_ROOT")
+    if override:
+        return Path(os.path.expandvars(override)).expanduser().resolve()
+    root = project_root or Path(__file__).resolve().parents[2]
+    name = "PeakTruthLab_final_merged_20260814"
+    external = get_local_root(root) / "inputs" / name
+    legacy = root / "PeakTruthLab" / "datasets" / name
+    if external.is_dir() or not (legacy / "images").is_dir():
+        return external
+    return legacy
+
+
 def expand_local_paths(value: Any) -> Any:
     """Expand the two supported local-storage placeholders in configuration."""
     if isinstance(value, dict):

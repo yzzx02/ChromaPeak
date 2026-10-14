@@ -23,13 +23,13 @@ def main() -> int:
     p.add_argument(
         "--data-root",
         type=str,
-        default=r"D:\\LipidBench\\PeakTruthLab\\datasets\\small_trainset",
+        required=True,
         help="Folder with images and same-name LabelMe JSON",
     )
     p.add_argument(
         "--label-map",
         type=str,
-        default=str(Path(__file__).resolve().parents[1] / "configs" / "label_map.json"),
+        default=str(Path(__file__).resolve().parents[2] / "configs" / "label_map.json"),
     )
     args = p.parse_args()
 

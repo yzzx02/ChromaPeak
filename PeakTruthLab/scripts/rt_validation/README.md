@@ -8,7 +8,7 @@ retrain, adjust shift-specific parameters or apply RT alignment.
 
 ## Download and extract the Release assets
 
-[RT validation Release](https://github.com/yzzx02/LipidBench/releases/tag/chromapeak-rt-validation-20260930)
+[RT validation Release](https://github.com/yzzx02/ChromaPeak/releases/tag/chromapeak-rt-validation-20260930)
 
 - `ChromaPeak_RT_complete_results_20260930.zip`: all result CSVs, frozen
   references, raw candidates/logs, historical scripts and exploratory boundary
@@ -32,7 +32,7 @@ reuse existing prediction CSVs in the same work directory.
 On current main, paper deliverables and their sample manifests are machine-local,
 not source files. `init` accepts `--sample-manifest <path-to-mzml16_manifest.csv>`;
 without it, the default is
-`<CHROMAPEAK_LOCAL_ROOT>/artifacts/reproduction/PeakTruthLab/final_delivery/rt_validation_20260930/mzml16_manifest.csv`.
+`<CHROMAPEAK_LOCAL_ROOT>/inputs/rt_validation/mzml16_manifest.csv`.
 The historical Release tag retains its original manifest. Runtime work and caches
 should use an external `--work-dir`; the fallback runtime location is external too.
 
@@ -64,7 +64,7 @@ No NVIDIA-only dependency file or DirectML conversion is used here.
 Clone the Release tag to obtain this complete source version:
 
 ```powershell
-git clone --branch chromapeak-rt-validation-20260930 https://github.com/yzzx02/LipidBench.git ChromaPeak
+git clone --branch chromapeak-rt-validation-20260930 https://github.com/yzzx02/ChromaPeak.git ChromaPeak
 cd ChromaPeak
 ```
 

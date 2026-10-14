@@ -15,6 +15,8 @@ if (-not $env:CHROMAPEAK_CACHE_ROOT) {
     $env:CHROMAPEAK_CACHE_ROOT = Join-Path $env:CHROMAPEAK_LOCAL_ROOT "cache"
 }
 $env:PYTHONPYCACHEPREFIX = Join-Path $env:CHROMAPEAK_CACHE_ROOT "python"
+$env:PYTHONUTF8 = "1"
+$env:PYTHONIOENCODING = "utf-8"
 $env:PIP_CACHE_DIR = Join-Path $env:CHROMAPEAK_CACHE_ROOT "pip"
 $env:TEMP = Join-Path $env:CHROMAPEAK_CACHE_ROOT "tmp"
 $env:TMP = $env:TEMP

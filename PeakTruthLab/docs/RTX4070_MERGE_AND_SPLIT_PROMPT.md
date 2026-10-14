@@ -20,11 +20,11 @@
 
 发布信息：
 
-- Repository：`yzzx02/LipidBench`
+- Repository：`yzzx02/ChromaPeak`
 - Branch：`codex/manual-negative-4500-v2`
 - Release tag：`peaktruthlab-manual-negative-4500-v2`
 - Asset：`PeakTruthLab_manual_negative_4500_v2_20260814.zip`
-- 下载地址：<https://github.com/yzzx02/LipidBench/releases/download/peaktruthlab-manual-negative-4500-v2/PeakTruthLab_manual_negative_4500_v2_20260814.zip>
+- 下载地址：<https://github.com/yzzx02/ChromaPeak/releases/download/peaktruthlab-manual-negative-4500-v2/PeakTruthLab_manual_negative_4500_v2_20260814.zip>
 - SHA256：`F89632310064E5F92A484AB7FD75A05ABF3DC55631F7077B2C9A328D4F0CB409`
 
 下载后先核验 SHA256，再解压。新增包应满足：

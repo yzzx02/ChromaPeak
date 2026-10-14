@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 import os
 import hashlib
 import json
@@ -12,6 +13,8 @@ PROJECT_ROOT = Path(
     or os.environ.get("LIPIDBENCH_PROJECT_ROOT")
     or Path(__file__).resolve().parents[3]
 ).resolve()
+sys.path.insert(0, str(PROJECT_ROOT))
+from lipidbench.utils.local_paths import get_dataset_root, get_local_root
 
 import numpy as np
 import pandas as pd
@@ -200,12 +203,12 @@ def main(args: argparse.Namespace) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--test-csv", default=str(PROJECT_ROOT / "PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/splits/test.csv"))
-    parser.add_argument("--test-lock", default=str(PROJECT_ROOT / "PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/splits/LOCKED_TEST_MANIFEST.sha256"))
-    parser.add_argument("--image-root", default=str(PROJECT_ROOT / "PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814"))
-    parser.add_argument("--run-root", default=str(PROJECT_ROOT / "PeakTruthLab/results/rtx4070_final_merged_20260814/main_ablation/seed_20260814"))
+    parser.add_argument("--test-csv", default=str(get_dataset_root(PROJECT_ROOT) / "splits/test.csv"))
+    parser.add_argument("--test-lock", default=str(get_dataset_root(PROJECT_ROOT) / "splits/LOCKED_TEST_MANIFEST.sha256"))
+    parser.add_argument("--image-root", default=str(get_dataset_root(PROJECT_ROOT)))
+    parser.add_argument("--run-root", default=str(get_local_root(PROJECT_ROOT) / "outputs/rtx4070_final_merged_20260814/main_ablation/seed_20260814"))
     parser.add_argument("--override", default=str(PROJECT_ROOT / "PeakTruthLab/configs/rtx4070_concat_override_20260815.json"))
-    parser.add_argument("--output", default=str(PROJECT_ROOT / "PeakTruthLab/results/rtx4070_final_merged_20260814/main_test_single_use_20260815"))
+    parser.add_argument("--output", default=str(get_local_root(PROJECT_ROOT) / "outputs/rtx4070_final_merged_20260814/main_test_single_use_20260815"))
     return parser.parse_args()
 
 

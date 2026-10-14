@@ -76,7 +76,7 @@ def initialize(args):
     source = bundle / 'rt_shift16'
     manifest_path = args.sample_manifest or (
         get_local_root(PROJECT_ROOT) /
-        'artifacts/reproduction/PeakTruthLab/final_delivery/rt_validation_20260930/mzml16_manifest.csv'
+        'inputs/rt_validation/mzml16_manifest.csv'
     )
     if not manifest_path.is_file():
         raise FileNotFoundError(
