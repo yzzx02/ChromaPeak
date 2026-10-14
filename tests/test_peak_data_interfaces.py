@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 import torch
 
-from lipidbench.data import (
+from chromapeak.data import (
     BASE_ATTRIBUTE_NAMES,
     PeakManifestRecord,
     PeakMultiTaskDataset,
@@ -157,7 +157,7 @@ def test_dataset_remaps_foreign_windows_image_root(
     opened: list[Path] = []
     mapping = synthetic_records[0].to_mapping()
     mapping["image_path"] = (
-        r"Z:\foreign\PeakTruthLab\datasets\eic_images_flat"
+        r"Z:\foreign\benchmarks\eic_images_flat"
         r"\source-a\sample_0.png"
     )
     record = PeakManifestRecord.from_mapping(mapping)

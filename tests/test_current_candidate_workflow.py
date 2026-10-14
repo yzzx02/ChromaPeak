@@ -7,9 +7,9 @@ import sys
 import pytest
 import torch
 
-from PeakTruthLab.scripts.convnext.candidate_components import FusionModel
-from lipidbench.data import PeakManifestRecord
-from lipidbench.data.training_utils import balanced_candidate_subset, move_peak_batch_to_device
+from chromapeak.models.candidate_classifier import FusionModel
+from chromapeak.data import PeakManifestRecord
+from chromapeak.data.training_utils import balanced_candidate_subset, move_peak_batch_to_device
 
 
 @pytest.mark.parametrize("mode", ["image_only", "attr_only", "naive_concat", "gated_fusion"])
@@ -28,7 +28,7 @@ def test_current_classifier_accepts_complete_candidate_attributes(mode: str) -> 
 ])
 def test_current_classification_entries_load_from_other_directory(tmp_path: Path, filename: str) -> None:
     root = Path(__file__).resolve().parents[1]
-    script = root / "PeakTruthLab" / "scripts" / "convnext" / filename
+    script = root / "scripts" / "classification" / filename
     result = subprocess.run([sys.executable, str(script), "--help"], cwd=tmp_path,
                             capture_output=True, text=True, check=True)
     assert "usage:" in result.stdout

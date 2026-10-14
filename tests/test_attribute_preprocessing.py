@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import torch
 
-from lipidbench.data import AttributePreprocessor, PeakManifestRecord
+from chromapeak.data import AttributePreprocessor, PeakManifestRecord
 
 
 def _record(sample_id: str, attributes: list[float | None]) -> PeakManifestRecord:

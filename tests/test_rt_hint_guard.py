@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from lipidbench.utils.rt_boundary_refiner import refine_peak_boundaries, refine_peak_boundaries_guarded
+from chromapeak.utils.rt_boundary_refiner import refine_peak_boundaries, refine_peak_boundaries_guarded
 
 
 def trace():

@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 import torch
 
-from lipidbench.models import GatedSeedFusionHead, PeakMultiTaskRCNN, resize_seed_boxes
+from chromapeak.models import GatedSeedFusionHead, PeakMultiTaskRCNN, resize_seed_boxes
 
 
 def _target(boxes: list[list[float]]) -> dict[str, torch.Tensor]:

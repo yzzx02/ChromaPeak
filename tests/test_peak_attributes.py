@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from scipy import signal
 
-from lipidbench.utils.peak_attributes import (
+from chromapeak.utils.peak_attributes import (
     PEAK_ATTRIBUTE_COLUMNS,
     _compute_additional_peak_features,
     _compute_peak_features,
@@ -13,7 +13,7 @@ from lipidbench.utils.peak_attributes import (
 
 
 def test_attribute_column_order_matches_current_model() -> None:
-    from lipidbench.data import BASE_ATTRIBUTE_NAMES
+    from chromapeak.data import BASE_ATTRIBUTE_NAMES
 
     assert PEAK_ATTRIBUTE_COLUMNS == list(BASE_ATTRIBUTE_NAMES)
     assert len(PEAK_ATTRIBUTE_COLUMNS) == 16

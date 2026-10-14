@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from lipidbench.utils.rt_boundary_refiner import refine_peak_boundaries
+from chromapeak.utils.rt_boundary_refiner import refine_peak_boundaries
 
 
 def _gaussian(rt: np.ndarray, mu: float, sigma: float, amp: float) -> np.ndarray:

@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from lipidbench.utils.config_io import load_config
-from lipidbench.utils.local_paths import expand_local_paths, get_cache_root, get_dataset_root, get_local_root
+from chromapeak.utils.config_io import load_config
+from chromapeak.utils.local_paths import expand_local_paths, get_cache_root, get_dataset_root, get_local_root
 
 
 def test_default_local_storage_is_outside_checkout(monkeypatch):

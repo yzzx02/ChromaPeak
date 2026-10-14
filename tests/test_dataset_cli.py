@@ -6,7 +6,7 @@ import sys
 
 def test_dataset_verification_help_without_local_inputs():
     root = Path(__file__).resolve().parents[1]
-    script = root / "PeakTruthLab/scripts/data_prep/verify_rtx4070_final_merged_dataset.py"
+    script = root / "scripts/data_prep/verify_rtx4070_final_merged_dataset.py"
     result = subprocess.run(
         [sys.executable, str(script), "--help"],
         cwd=root,

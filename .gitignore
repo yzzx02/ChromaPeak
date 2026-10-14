@@ -34,9 +34,8 @@ cleanup_kept_*/
 cleanup_inventory_*.json
 _remote_attribute_handoff*/
 .peak_fusion_training.lock
-PeakTruthLab/results/
-PeakTruthLab/releases/
-PeakTruthLab/final_delivery/
+releases/
+final_delivery/
 
 # Raw input and generated scientific/reproduction artifacts are local only
 /data/
@@ -83,20 +82,20 @@ PeakTruthLab/final_delivery/
 runs/
 tb_logs/
 models/
-!/lipidbench/models/
+!/chromapeak/models/
 
 # Maintained source configuration and locked canonical dataset metadata
 !/requirements*.txt
-!/PeakTruthLab/configs/*.json
-!/PeakTruthLab/configs/labelme_labels.txt
-!/PeakTruthLab/datasets/feature_table_final_15409.csv
-!/PeakTruthLab/datasets/feature_table_final_15409.audit.json
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/tables/
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/tables/*.csv
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/audits/
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/audits/*.csv
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/audits/*.json
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/splits/
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/splits/*.csv
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/splits/*.json
-!/PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/splits/*.sha256
+!/configs/*.json
+!/configs/labelme_labels.txt
+!/benchmarks/main_20260814/tables/
+!/benchmarks/main_20260814/tables/*.csv
+!/benchmarks/main_20260814/audits/
+!/benchmarks/main_20260814/audits/*.csv
+!/benchmarks/main_20260814/audits/*.json
+!/benchmarks/main_20260814/splits/
+!/benchmarks/main_20260814/splits/*.csv
+!/benchmarks/main_20260814/splits/*.json
+!/benchmarks/main_20260814/splits/*.sha256
+
+!/benchmarks/feature_table_final_10000.csv

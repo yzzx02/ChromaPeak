@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import torch
 
-from lipidbench.models import ConvNeXtTinyFPNBackbone
+from chromapeak.models import ConvNeXtTinyFPNBackbone
 
 
 def test_convnext_tiny_fpn_shapes_are_finite_and_multiscale() -> None:
