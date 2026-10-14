@@ -68,7 +68,7 @@ def main() -> int:
     parser.add_argument(
         "--root",
         type=str,
-        default=r"D:\LipidBench\PeakTruthLab\datasets\small_trainset",
+        required=True,
         help="Folder containing LabelMe JSON files (recursively).",
     )
     parser.add_argument(

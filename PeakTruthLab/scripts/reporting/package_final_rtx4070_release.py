@@ -163,10 +163,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=get_local_root(repo_root) / "artifacts/reproduction/PeakTruthLab/releases" / RELEASE_NAME,
+        default=get_local_root(repo_root) / "outputs/releases" / RELEASE_NAME,
     )
     parser.add_argument("--results-root", type=Path,
-        default=get_local_root(repo_root) / "artifacts/reproduction/PeakTruthLab/results/rtx4070_final_merged_20260814")
+        default=get_local_root(repo_root) / "outputs/rtx4070_final_merged_20260814")
     return parser.parse_args()
 
 

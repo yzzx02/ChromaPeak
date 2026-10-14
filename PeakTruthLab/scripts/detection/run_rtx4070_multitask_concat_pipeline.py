@@ -17,6 +17,8 @@ PROJECT_ROOT = Path(
     or os.environ.get("LIPIDBENCH_PROJECT_ROOT")
     or Path(__file__).resolve().parents[3]
 ).resolve()
+sys.path.insert(0, str(PROJECT_ROOT))
+from lipidbench.utils.local_paths import get_dataset_root, get_local_root
 
 
 def read_json(path: Path) -> Any:
@@ -385,17 +387,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--manifest-root",
         type=Path,
-        default=Path(str(PROJECT_ROOT / "PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814/detection_manifests_16attrs_20260815")),
+        default=Path(str(get_dataset_root(PROJECT_ROOT) / "detection_manifests_16attrs_20260815")),
     )
     parser.add_argument(
         "--image-root",
         type=Path,
-        default=Path(str(PROJECT_ROOT / "PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814")),
+        default=Path(str(get_dataset_root(PROJECT_ROOT))),
     )
     parser.add_argument(
         "--result-root",
         type=Path,
-        default=Path(str(PROJECT_ROOT / "PeakTruthLab/results/rtx4070_final_merged_20260814/multitask_concat_detection_seed_20260816_bs16_ep30")),
+        default=Path(str(get_local_root(PROJECT_ROOT) / "outputs/rtx4070_final_merged_20260814/multitask_concat_detection_seed_20260816_bs16_ep30")),
     )
     parser.add_argument(
         "--train-script",

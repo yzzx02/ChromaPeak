@@ -2,12 +2,12 @@ project:
   name: "ChromaPeak"
   description: "LC-MS chromatographic peak detection and candidate validation"
 paths:
-  input_dir: "${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/data/raw_mzML"
-  output_dir: "${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/results"
-  xcms_output: "${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/results/xcms"
-  ms_dial_output: "${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/results/ms_dial"
-  pyopenms_output: "${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/results/pyopenms"
-  asari_output: "${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/results/asari"
+  input_dir: "${CHROMAPEAK_LOCAL_ROOT}/inputs/raw_mzML"
+  output_dir: "${CHROMAPEAK_LOCAL_ROOT}/outputs"
+  xcms_output: "${CHROMAPEAK_LOCAL_ROOT}/outputs/xcms"
+  ms_dial_output: "${CHROMAPEAK_LOCAL_ROOT}/outputs/ms_dial"
+  pyopenms_output: "${CHROMAPEAK_LOCAL_ROOT}/outputs/pyopenms"
+  asari_output: "${CHROMAPEAK_LOCAL_ROOT}/outputs/asari"
 common_params:
   mz_tolerance_ppm: 10.0
   rt_tolerance_sec: 10.0
@@ -35,8 +35,8 @@ parameters:
       min_fwhm: 2.5
       max_fwhm: 60.0
   msdial:
-    input_dir: '${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/data/msdial'
-    output_dir: '${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/results/msdial'
+    input_dir: '${CHROMAPEAK_LOCAL_ROOT}/inputs/msdial'
+    output_dir: '${CHROMAPEAK_LOCAL_ROOT}/outputs/msdial'
   asari:
     ppm: 10.0
     autoheight: False
@@ -45,7 +45,7 @@ parameters:
     min_peak_height: 5000
 eic_export:
   enabled: false
-  mzml: '${CHROMAPEAK_LOCAL_ROOT}/artifacts/reproduction/data/raw_mzML/NIST_Full scan_1_POS.mzML'
+  mzml: '${CHROMAPEAK_LOCAL_ROOT}/inputs/raw_mzML/NIST_Full scan_1_POS.mzML'
   method: 'nearest'
   unit: 'ppm'
   ppm: 10.0

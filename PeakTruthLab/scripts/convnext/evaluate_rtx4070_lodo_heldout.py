@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 import os
 import hashlib
 import json
@@ -12,6 +13,8 @@ PROJECT_ROOT = Path(
     or os.environ.get("LIPIDBENCH_PROJECT_ROOT")
     or Path(__file__).resolve().parents[3]
 ).resolve()
+sys.path.insert(0, str(PROJECT_ROOT))
+from lipidbench.utils.local_paths import get_dataset_root
 
 import torch
 from torch.utils.data import DataLoader
@@ -144,7 +147,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fold-dir", required=True)
     parser.add_argument("--training-dir", required=True)
     parser.add_argument("--output", required=True)
-    parser.add_argument("--image-root", default=str(PROJECT_ROOT / "PeakTruthLab/datasets/PeakTruthLab_final_merged_20260814"))
+    parser.add_argument("--image-root", default=str(get_dataset_root(PROJECT_ROOT)))
     return parser.parse_args()
 
 

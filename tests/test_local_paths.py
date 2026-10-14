@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from lipidbench.utils.config_io import load_config
-from lipidbench.utils.local_paths import expand_local_paths, get_cache_root, get_local_root
+from lipidbench.utils.local_paths import expand_local_paths, get_cache_root, get_dataset_root, get_local_root
 
 
 def test_default_local_storage_is_outside_checkout(monkeypatch):
@@ -27,3 +27,19 @@ def test_local_paths_honor_overrides_without_rewriting_explicit_paths(monkeypatc
     assert result["explicit"] == original["explicit"]
     assert result["parameter"] == original["parameter"]
     assert "${CHROMAPEAK_LOCAL_ROOT}" in original["paths"][0]
+
+
+def test_dataset_relocation_and_explicit_override(monkeypatch, tmp_path):
+    monkeypatch.delenv("CHROMAPEAK_DATASET_ROOT", raising=False)
+    monkeypatch.delenv("CHROMAPEAK_LOCAL_ROOT", raising=False)
+    project = tmp_path / "ChromaPeak"
+    name = "PeakTruthLab_final_merged_20260814"
+    legacy = project / "PeakTruthLab" / "datasets" / name
+    external = tmp_path / "ChromaPeak-local" / "inputs" / name
+    assert get_dataset_root(project) == external
+    (legacy / "images").mkdir(parents=True)
+    assert get_dataset_root(project) == legacy
+    external.mkdir(parents=True)
+    assert get_dataset_root(project) == external
+    monkeypatch.setenv("CHROMAPEAK_DATASET_ROOT", str(tmp_path / "chosen dataset"))
+    assert get_dataset_root(project) == tmp_path / "chosen dataset"
