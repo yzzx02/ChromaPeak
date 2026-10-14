@@ -7,15 +7,16 @@ The current release uses 480 x 480 EIC images, exactly 16 candidate attributes, 
 The validated NVIDIA runtime is Python 3.12, PyTorch 2.9.1 + CUDA 12.8, and torchvision 0.24.1. Install the matching NVIDIA driver, then run from the checkout root:
 
 ```powershell
+. .\scripts\use_local_workspace.ps1
 powershell -ExecutionPolicy Bypass -File scripts\setup_nvidia_cu128.ps1
-.\.venv-nvidia-cu128\Scripts\Activate.ps1
+& "$env:CHROMAPEAK_LOCAL_ROOT\runtime\environments\nvidia-cu128\Scripts\Activate.ps1"
 ```
 
 The setup installs the common training dependencies and the CUDA wheels, then checks GPU availability.
 
 ## Final data
 
-Use `<CHROMAPEAK_LOCAL_ROOT>/inputs/PeakTruthLab_final_merged_20260814`, containing the final 19,817 EIC windows and their 16-attribute manifests. The maintained dataset and release documentation is in `docs/BENCHMARK.md`. Paper deliverables are local under `<CHROMAPEAK_LOCAL_ROOT>/图表与复现数据/`.
+Set `CHROMAPEAK_DATASET_ROOT` to the extracted final dataset, containing 19,817 EIC windows and their 16-attribute manifests. The default location is `<CHROMAPEAK_LOCAL_ROOT>/inputs/PeakTruthLab_final_merged_20260814`. See [the benchmark documentation](BENCHMARK.md) for the published dataset and protocol.
 
 ## Released joint workflow
 

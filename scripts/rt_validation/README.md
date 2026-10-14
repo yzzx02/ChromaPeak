@@ -22,15 +22,14 @@ retrain, adjust shift-specific parameters or apply RT alignment.
   runtime including XCMS 4.10.1, MSnbase, mzR and package documentation/licenses.
 - `release_assets_sha256.json`: archive hashes and CRC verification records.
 
-Use ASCII paths such as `D:\ChromaPeakData`. Keep archival files intact. Historical
-README files record the old workstation paths; use the commands below to replay.
+Use an external directory with an ASCII path and keep archival files intact.
+Use the relocatable commands below to replay the experiment.
 Keep Arial available for the historical EIC font. Rendering now sets the original
 font policy explicitly in every worker; the preflight records the resolved font
 and software/source fingerprint. A change of device or environment cannot silently
 reuse existing prediction CSVs in the same work directory.
 
-On current main, paper deliverables and their sample manifests are machine-local,
-not source files. `init` accepts `--sample-manifest <path-to-mzml16_manifest.csv>`;
+`init` accepts `--sample-manifest <path-to-mzml16_manifest.csv>`;
 without it, the default is
 `<CHROMAPEAK_LOCAL_ROOT>/inputs/rt_validation/mzml16_manifest.csv`.
 The historical Release tag retains its original manifest. Runtime work and caches
@@ -68,19 +67,21 @@ git clone https://github.com/yzzx02/ChromaPeak.git ChromaPeak
 cd ChromaPeak
 ```
 
-Example extracted directories:
+Example extracted layout in `../replay-data/`, outside the source checkout:
 
 ```text
-D:\ChromaPeakData\results\rt_shift16\...
-D:\ChromaPeakData\mzml16\*.mzML
-D:\ChromaPeakData\checkpoint\best_detection.pt
-D:\ChromaPeakData\R-4.6.1-xcms4.10.1\bin\Rscript.exe
+replay-data/
+├─ results/rt_shift16/...
+├─ mzml16/*.mzML
+├─ checkpoint/best_detection.pt
+└─ R-4.6.1-xcms4.10.1/bin/Rscript.exe
 ```
 
 ```powershell
-python scripts/rt_validation/run.py init --work-dir D:\ChromaPeakData\replay9070 --bundle D:\ChromaPeakData\results --mzml-dir D:\ChromaPeakData\mzml16 --checkpoint D:\ChromaPeakData\checkpoint\best_detection.pt --rscript D:\ChromaPeakData\R-4.6.1-xcms4.10.1\bin\Rscript.exe
-python scripts/rt_validation/run.py preflight --work-dir D:\ChromaPeakData\replay9070 --device cuda
-python scripts/rt_validation/run.py all --work-dir D:\ChromaPeakData\replay9070 --device cuda --workers 2 --batch-size 4
+$ReplayRoot = (Resolve-Path ../replay-data).Path
+python scripts/rt_validation/run.py init --work-dir "$ReplayRoot/replay9070" --bundle "$ReplayRoot/results" --mzml-dir "$ReplayRoot/mzml16" --checkpoint "$ReplayRoot/checkpoint/best_detection.pt" --rscript "$ReplayRoot/R-4.6.1-xcms4.10.1/bin/Rscript.exe"
+python scripts/rt_validation/run.py preflight --work-dir "$ReplayRoot/replay9070" --device cuda
+python scripts/rt_validation/run.py all --work-dir "$ReplayRoot/replay9070" --device cuda --workers 2 --batch-size 4
 ```
 
 `all`: preflight → regenerate/audit 112 actual mzML files → both baselines →
@@ -134,7 +135,7 @@ using native XCMS `into`; none of its old results were rerun with the guard.
 Replay this CPU-only policy audit from the cached raw EICs:
 
 ```powershell
-python scripts/rt_validation/compare_boundary_policies.py --audit-dir D:\ChromaPeakData\results\boundary_policy_audit --output-dir D:\ChromaPeakData\boundary_recheck
+python scripts/rt_validation/compare_boundary_policies.py --audit-dir "$ReplayRoot/results/boundary_policy_audit" --output-dir "$ReplayRoot/boundary_recheck"
 ```
 
 This uses upstream XCMS RT/bounds to predict and loads manual boundaries for
